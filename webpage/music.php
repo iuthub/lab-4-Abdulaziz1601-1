@@ -13,17 +13,21 @@
 </div>
 
 <div id="listarea">
-    <ul id="musiclist">
+    <ul id="playlist">
         <?php
         //        $q = $_REQUEST["playlist"];// Gives an error
         if (isset($_REQUEST["playlist"])) {
             $querySongs = file("songs/{$_REQUEST["playlist"]}");
-            foreach ($querySongs as $file) { ?>
+            ?>
+            <a href="../webpage/music.php" id="return">Back</a>
+            <?php foreach ($querySongs as $file) { ?>
                 <li class="mp3item">
                     <a href="<?= "songs/{$file}" ?>"><?= $file ?></a>
                 </li>
-            <?php }
-        } else {
+            <?php } ?>
+    </ul>
+    <ul id="musiclist">
+    <?php } else {
             $songs = glob("songs/*.mp3");
             foreach ($songs as $song) {
                 $songName = basename($song);
@@ -35,7 +39,7 @@
                         (<?= round($size, 2) ?> b)
                     <?php } elseif (($size >= 1048576 )) { ?>
                     (<?= round($size / 1048576, 2) ?>mb)
-                    <?php } elseif (($size >= 1024)) { ?>
+                    <?php } elseif ($size >= 1024 and $size <= 1048576) { ?>
                         (<?= round($size / 1024, 2) ?>kb)
                     <?php } ?>
                 </li>
@@ -51,6 +55,7 @@
             <?php }
         }
         ?>
+    </ul>
 
         <!---->
         <!---->
